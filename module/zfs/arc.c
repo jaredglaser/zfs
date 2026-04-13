@@ -386,7 +386,7 @@ uint_t arc_grow_retry = 5;
 static const int arc_kmem_cache_reap_retry_ms = 1000;
 
 /* shift of arc_c for calculating overflow limit in arc_get_data_impl */
-static int zfs_arc_overflow_shift = 8;
+int zfs_arc_overflow_shift = 8;
 
 /* log2(fraction of arc to reclaim) */
 uint_t arc_shrink_shift = 7;
@@ -888,12 +888,6 @@ typedef enum arc_fill_flags {
 	ARC_FILL_NOAUTH		= 1 << 3, /* don't attempt to authenticate */
 	ARC_FILL_IN_PLACE	= 1 << 4  /* fill in place (special case) */
 } arc_fill_flags_t;
-
-typedef enum arc_ovf_level {
-	ARC_OVF_NONE,			/* ARC within target size. */
-	ARC_OVF_SOME,			/* ARC is slightly overflowed. */
-	ARC_OVF_SEVERE			/* ARC is severely overflowed. */
-} arc_ovf_level_t;
 
 static kmutex_t l2arc_rebuild_thr_lock;
 static kcondvar_t l2arc_rebuild_thr_cv;
@@ -5124,7 +5118,7 @@ arc_adapt(uint64_t bytes)
 /*
  * Check if ARC current size has grown past our upper thresholds.
  */
-static arc_ovf_level_t
+arc_ovf_level_t
 arc_is_overflowing(boolean_t lax, boolean_t use_reserve)
 {
 	/*
