@@ -1109,6 +1109,17 @@ extern kmutex_t arc_prune_mtx;
 extern list_t arc_prune_list;
 extern arc_state_t	ARC_mfu;
 extern arc_state_t	ARC_mru;
+extern int		zfs_arc_overflow_shift;
+
+/* Values are ordered by increasing severity; comparisons are valid. */
+typedef enum arc_ovf_level {
+	ARC_OVF_NONE,			/* ARC within target size. */
+	ARC_OVF_SOME,			/* ARC is slightly overflowed. */
+	ARC_OVF_SEVERE			/* ARC is severely overflowed. */
+} arc_ovf_level_t;
+
+extern arc_ovf_level_t	arc_is_overflowing(boolean_t, boolean_t);
+
 extern uint_t zfs_arc_pc_percent;
 extern uint_t arc_lotsfree_percent;
 extern uint64_t zfs_arc_min;

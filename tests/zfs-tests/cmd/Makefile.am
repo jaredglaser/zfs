@@ -24,6 +24,10 @@ scripts_zfs_tests_bin_PROGRAMS += %D%/badsend
 	libnvpair.la
 
 
+scripts_zfs_tests_bin_PROGRAMS += %D%/arc_deadlock_test
+%C%_arc_deadlock_test_CPPFLAGS = $(AM_CPPFLAGS) $(LIBZPOOL_CPPFLAGS)
+%C%_arc_deadlock_test_LDADD = libzpool.la
+
 scripts_zfs_tests_bin_PROGRAMS += %D%/btree_test
 %C%_btree_test_CPPFLAGS = $(AM_CPPFLAGS) $(LIBZPOOL_CPPFLAGS)
 %C%_btree_test_LDADD = \
